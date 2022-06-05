@@ -1,3 +1,5 @@
+###IN THE FOLDER NAMES:
+
 saxx - means the starting point of logspace is 'xx'
 
 soxx - means the stopping point of logspace is 'xx'
