@@ -37,12 +37,13 @@ def n_e_hist(file):
 
     plt.figure(figsize=(26,16))
     plt.rcParams.update({'font.size': 24})
-    plt.hist(yax, bins= np.logspace(3,12))
+    plt.hist(yax, bins= np.logspace(3,12,23))
     plt.xscale("log")
     plt.xlabel("log(E_nu/GeV)")
     plt.ylabel("N")
     plt.suptitle(file.replace('icecube_10year_ps/irfs/','').replace('_smearing','').replace('.csv',''))
-    plt.grid(True, which="major")
+    plt.grid(True, which="both")
+    plt.plot
     #plt.show()
     plt.savefig(file.replace('icecube_10year_ps/irfs/','Task1b/histogram/smearing/').replace('.csv','.png'))
 
@@ -51,3 +52,5 @@ filenames = ["icecube_10year_ps/irfs/IC40_smearing.csv", "icecube_10year_ps/irfs
 
 for filename in filenames:
     n_e_hist(filename)
+#n_e_hist(filenames[0])
+#LEAST GAPS WITH "E BINNED AS bins = np.logspace(3,12,23))""
