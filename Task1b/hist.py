@@ -4,6 +4,8 @@ import pylab as pl
 import numpy as np
 import matplotlib.pyplot as plt
 
+#FUNCTION TO PLOT HISTOGRAMS OF N VS E BINNED IN LOG E
+
 def n_e_hist(file):
     with open(file, 'r') as f2:
         lines = f2.readlines()
@@ -35,14 +37,14 @@ def n_e_hist(file):
 
     plt.figure(figsize=(26,16))
     plt.rcParams.update({'font.size': 24})
-    plt.hist(yax, bins= np.logspace(np.log10(1),12), rwidth=0.8)
+    plt.hist(yax, bins= np.logspace(np.log10(1),12))
     plt.xscale("log")
     plt.xlabel("log(E_nu/GeV)")
     plt.ylabel("N")
     plt.suptitle(file.replace('icecube_10year_ps/irfs/','').replace('_smearing','').replace('.csv',''))
     plt.grid(True, which="major")
     #plt.show()
-    plt.savefig(file.replace('icecube_10year_ps/irfs/','Task1b/histogram/smearing').replace('.csv','.png').replace('smearingIC','IC'))
+    plt.savefig(file.replace('icecube_10year_ps/irfs/','Task1b/histogram/smearing/').replace('.csv','.png'))
 
 filenames = ["icecube_10year_ps/irfs/IC40_smearing.csv", "icecube_10year_ps/irfs/IC59_smearing.csv",
  "icecube_10year_ps/irfs/IC79_smearing.csv", "icecube_10year_ps/irfs/IC86_I_smearing.csv", "icecube_10year_ps/irfs/IC86_II_smearing.csv"]
