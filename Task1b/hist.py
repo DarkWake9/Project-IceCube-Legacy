@@ -37,7 +37,7 @@ def n_e_hist(file):
 
     plt.figure(figsize=(26,16))
     plt.rcParams.update({'font.size': 24})
-    plt.hist(yax, bins= np.logspace(np.log10(1),12))
+    plt.hist(yax, bins= np.logspace(3,12))
     plt.xscale("log")
     plt.xlabel("log(E_nu/GeV)")
     plt.ylabel("N")
