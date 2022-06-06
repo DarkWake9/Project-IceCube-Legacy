@@ -23,7 +23,7 @@ def n_e_histf(file):
     plt.rcParams.update({'font.size': 24})
     plt.hist(e, bins= np.logspace(np.log10(2.6),np.log10(7)))
     plt.xscale("log")
-    plt.xlabel("log(E_nu/GeV)")
+    plt.xlabel("E_nu (GeV)")
     plt.ylabel("N")
     plt.suptitle(file.replace('icecube_10year_ps/events/','').replace('_exp','').replace('.csv',''))
     plt.grid(True, which="both")
