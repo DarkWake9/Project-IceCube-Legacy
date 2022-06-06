@@ -28,7 +28,7 @@ def n_e_histf(file):
     plt.suptitle(file.replace('icecube_10year_ps/events/','').replace('_exp','').replace('.csv',''))
     plt.grid(True, which="both")
     #plt.show()
-    plt.savefig(file.replace('icecube_10year_ps/events/','Task1b/').replace('_exp','').replace('.csv','.png'))
+    plt.savefig(file.replace('icecube_10year_ps/events/','Task1b/output/').replace('_exp','').replace('.csv','.png'))
     
 
 filenames = ["icecube_10year_ps/events/IC40_exp.csv", "icecube_10year_ps/events/IC59_exp.csv",
