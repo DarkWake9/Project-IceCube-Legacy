@@ -18,3 +18,9 @@ def hvvec(lon1, lat1, lon2, lat2):
     c = np.multiply(2, np.arcsin(np.sqrt(a)))
 
     return c
+
+
+
+ASTROPY METHOD
+
+asp = astropy.coordinate.position_angle( np.deg2rad(msra), np.deg2rad(msdec), np.deg2rad(icra), np.deg2rad(icdec))
