@@ -2,7 +2,7 @@
 
 Last edited 2506
 
-Week 1: 0305 - 1005
+## Week 1: 0305 - 1005
 
 Read few papers on neutrinos:
 
@@ -17,7 +17,8 @@ Data used for the project was downloaded from:
 	
 Read introductory articles on MCMCs and tried using emcee
 	
-Week 2: 1005 - 1705
+## Week 2: 1005 - 1705
+
 Read a paper on neutrino physics https://arxiv.org/pdf/1910.11878.pdf
 
 Installed and configured Linux on advise of Shantanu sir
@@ -26,7 +27,7 @@ Learnt about Monte Carlo simulations and MCMC's by writing few simple practice c
 
 Watched an Icecube colloqium https://www.youtube.com/watch?v=J5S5wN4Kfz4
 
-Week 3: 1705 - 2405
+## Week 3: 1705 - 2405
 
 	Assigned 1st task: a) plotting the sky distribution of IceCube neutrinos, 
 			   b) energy spectrum of IceCube neutrinos as well as 
@@ -41,7 +42,7 @@ Created github repo for the project
 	1b incorrect attempt due to mis-interpretation of energy spectrum
 	1c not done as psrcat files could not be compiled (later advised not needed)
 	
-Week 4: 2405-3105
+## Week 4: 2405-3105
 
 	1c Plotted ms pulsars with Galactic latitude and logitude
 	
@@ -49,11 +50,11 @@ Week 4: 2405-3105
 		advised to get an output similar to Fig 5 in https://arxiv.org/pdf/0711.0053.pdf
 		Still could not get it.
 		
-Week 5: 3105 - 0706
-	1b 
-		Still plotting incorrect graphs by using formulas from https://arxiv.org/pdf/1910.11878.pdf to get N as a function of E
+## Week 5: 3105 - 0706
+	1b Plotted incorrect graphs by using formulas from https://arxiv.org/pdf/1910.11878.pdf
+								to get N as a function of E
 		Advised to plot hist(E) in matplotlib binned logarithmically in energy
-		0606 - Finally plotted the graph of E binned in logE.
+	0606 - Finally plotted the graph of E binned in logE.
 		       Used the logspace from log10(2.6) to log10(7) with 50 bin
 	
 Completed Task 1 on 06062022
@@ -67,10 +68,11 @@ Cautioned against practical issues
 
 	1. Need to consider the full IceCube data (not one year at a time as what you have done)
 	
-	2. Because of (1), calculating the angle for all neutrino-millisecond pulsar pairs could take a long time if done a brute force search.
+	2. Because of (1), calculating the angle for all neutrino-millisecond pulsar pairs could take a long time
+											with a brute force search.
 	Advised to either vectorize in python or use a low-level language (such as C)
 
-Week 6: 0706 - 1406
+## Week 6: 0706 - 1406
 
 0906 - Completed Task 2/2a,  
 0906 - Assigned task 2b:	
@@ -96,7 +98,7 @@ Week 6: 0706 - 1406
 		    + all MSP matches within z degrees of neutrino 3 and so on
 		
 		
-Week 7: 1406 - 2106
+## Week 7: 1406 - 2106
 
 	Task 2c required high memory usage and took long to compile. So tried using GPU (PyCUDA, but was unsuccessful)
 
@@ -112,7 +114,7 @@ Week 7: 1406 - 2106
 	$|cos(\theta)-cos(5)|  < 0.5 x (1-cos X)$
 				 (theta is the angle between pulsar and neutrino event)
 				 
-Week 8: 2106 - today 2506:
+## Week 8: 2106 - today 2506:
 
 	Unsuccesfully tried GPU coding.
 
@@ -120,10 +122,12 @@ Week 8: 2106 - today 2506:
 
 	2306 - First incorrect attempt: got 53101560 matches.
 		Advised to re check
-	2306 - Found the error: Did not take Cos(X) in the formula above. This resulted in abnormally large no.of matches as X is in degrees so 1-X frequently was < 0.
+	2306 - Found the error: Did not take Cos(X) in the formula above. This resulted in abnormally large no.of matches 
+	          as X is in degrees so 1-X frequently was < 0.
 	
 	2306 - Successfully completed task 2d/2c2 - got 31091 matches
-	2506 - Updated Task 1a y plotting the ENTIRE sky distribution from 2008-18 in HAMMER projections using (RA, DEC) and (Gal_lat, Gal_lon)
+	2506 - Updated Task 1a y plotting the ENTIRE sky distribution from 2008-18 in HAMMER projections using (RA, DEC)
+												and (Gal_lat, Gal_lon)
 	Waiting for next task
 		
 	
