@@ -60,7 +60,8 @@ Completed Task 1 on 06062022
 
 Assigned Task 2/2a on 06062022:
 	
-	2a) Calculate the space angle between each neutrino detected by Icecube and all the millisecond pulsars. Then bin the data as a function of angles between 0 and 30 degrees (with bins of 5 degree each).
+	2a) Calculate the space angle between each neutrino detected by Icecube and all the millisecond pulsars.
+	Then bin the data as a function of angles between 0 and 30 degrees (with bins of 5 degree each).
 	
 Cautioned against practical issues
 	1. Need to consider the full IceCube data (not one year at a time as what you have done)
@@ -76,7 +77,8 @@ Week 6: 0706 - 1406
 		(This will constitute the total signal events.)
 		
 	To estimate the background, bin the data between 0 and 7.35 degrees into 6 equispaced cos (theta) bins.
-		i.e, bin the  data into six equal cos(theta) bins between cos(0) and cos(7.35 degrees). (The bin closest to 0 corresponds to 3 degrees)
+		i.e, bin the  data into six equal cos(theta) bins between cos(0) and cos(7.35 degrees).
+		(The bin closest to 0 corresponds to 3 degrees)
 		The average of the last 5 bins will constitute the background.
 	
 
@@ -89,7 +91,6 @@ Week 6: 0706 - 1406
 	Count the number of msp-neutrino matches within each neutrino error circle
 	(Icecube provides the angular resolution / angerr for each neutrino which varies from neutrino to neutrino)
 		I.e, if neutrino 1 has a resolution of x degrees, neutrino 2 y degrees, neutrino 3 z degrees, then calculate all MSP matches within x degrees of neutrino 1 + all MSP matches within y degrees of neutrino 2 + all MSP matches within z degrees of neutrino 3 and so on
-		
 		
 		
 Week 7: 1406 - 2106
