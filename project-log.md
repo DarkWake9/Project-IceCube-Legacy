@@ -90,7 +90,9 @@ Week 6: 0706 - 1406
 	
 	Count the number of msp-neutrino matches within each neutrino error circle
 	(Icecube provides the angular resolution / angerr for each neutrino which varies from neutrino to neutrino)
-		I.e, if neutrino 1 has a resolution of x degrees, neutrino 2 y degrees, neutrino 3 z degrees, then calculate all MSP matches within x degrees of neutrino 1 + all MSP matches within y degrees of neutrino 2 + all MSP matches within z degrees of neutrino 3 and so on
+		I.e, if neutrino 1 has a resolution of x degrees, neutrino 2 y degrees, neutrino 3 z degrees,
+		then calculate all MSP matches within x degrees of neutrino 1 + all MSP matches within y degrees of neutrino 2 
+		    + all MSP matches within z degrees of neutrino 3 and so on
 		
 		
 Week 7: 1406 - 2106
@@ -102,7 +104,7 @@ Week 7: 1406 - 2106
 		
 2006 - Assigned task 2d:
 	Estimate the background by finding the number of coincidences within the same solid angle corresponding to the error region but offset by 5 degrees.
-	I.e for a given neutrino that has an error of X degrees, an event is considered background if it satisfies	|cos(theta)-cos(5)|  < 0.5 x (1-cos X)
+	I.e for a given neutrino that has an error of X degrees, an event is considered background if it satisfies	$|cos(\theta)-cos(5)|  < 0.5 x (1-cos X)$
 				 (theta is the angle between pulsar and neutrino event)
 				 
 Week 8: 2106 - today 2506:
