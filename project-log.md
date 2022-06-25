@@ -7,12 +7,13 @@ Week 1: 0305 - 1005
 Read few papers on neutrinos:
 
 	https://arxiv.org/abs/2202.00694
+	
 	https://arxiv.org/abs/2112.13820
 	
 Data used for the project was downloaded from:
 	https://www.atnf.csiro.au/research/pulsar/psrcat/ for ms pulsars
 	
-	https://icecube.wisc.edu/data-releases/2021/01/all-sky-point-source-icecube-data-years-2008-2018/		for icecube neutrinos
+	https://icecube.wisc.edu/data-releases/2021/01/all-sky-point-source-icecube-data-years-2008-2018/ for icecube neutrinos
 	
 Read introductory articles on MCMCs and tried using emcee
 	
@@ -27,11 +28,12 @@ Watched an Icecube colloqium https://www.youtube.com/watch?v=J5S5wN4Kfz4
 
 Week 3: 1705 - 2405
 
-Assigned 1st task: a) plotting the sky distribution of IceCube neutrinos, 
-		   b) energy spectrum of IceCube neutrinos as well as 
-		   c) sky distribution of millisecond pulsars
+	Assigned 1st task: a) plotting the sky distribution of IceCube neutrinos, 
+			   b) energy spectrum of IceCube neutrinos as well as 
+			   c) sky distribution of millisecond pulsars
 	
 Learnt astropy and it's required applications
+
 Created github repo for the project
 
 	Completed 1a:- Plotted the sky distribuutions in all biultin projections but focused on Hammer projection.
@@ -40,6 +42,7 @@ Created github repo for the project
 	1c not done as psrcat files could not be compiled (later advised not needed)
 	
 Week 4: 2405-3105
+
 	1c Plotted ms pulsars with Galactic latitude and logitude
 	
 	1b not complete as still did not understand energy spectrum meant histogram of energy so 
@@ -61,6 +64,7 @@ Assigned Task 2/2a on 06062022:
 	
 Cautioned against practical issues
 	1. Need to consider the full IceCube data (not one year at a time as what you have done)
+	
 	2. Because of (1), calculating the angle for all neutrino-millisecond pulsar pairs could take a long time if done a brute force search.
 	Advised to either vectorize in python or use a low-level language (such as C)
 
