@@ -64,6 +64,7 @@ Assigned Task 2/2a on 06062022:
 	Then bin the data as a function of angles between 0 and 30 degrees (with bins of 5 degree each).
 	
 Cautioned against practical issues
+
 	1. Need to consider the full IceCube data (not one year at a time as what you have done)
 	
 	2. Because of (1), calculating the angle for all neutrino-millisecond pulsar pairs could take a long time if done a brute force search.
@@ -103,8 +104,12 @@ Week 7: 1406 - 2106
 		Rectified a bug in Task 2a and 2b which prevented the code from iterating throughout the data. Waiting for next task
 		
 2006 - Assigned task 2d:
-	Estimate the background by finding the number of coincidences within the same solid angle corresponding to the error region but offset by 5 degrees.
-	I.e for a given neutrino that has an error of X degrees, an event is considered background if it satisfies	$|cos(\theta)-cos(5)|  < 0.5 x (1-cos X)$
+	Estimate the background by finding the number of coincidences within the same solid angle
+	    corresponding to the error region but offset by 5 degrees.
+	
+	I.e for a given neutrino that has an error of X degrees, an event is considered background if it satisfies
+	
+	$|cos(\theta)-cos(5)|  < 0.5 x (1-cos X)$
 				 (theta is the angle between pulsar and neutrino event)
 				 
 Week 8: 2106 - today 2506:
