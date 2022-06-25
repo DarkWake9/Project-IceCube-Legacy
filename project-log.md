@@ -123,6 +123,7 @@ Week 8: 2106 - today 2506:
 	2306 - Found the error: Did not take Cos(X) in the formula above. This resulted in abnormally large no.of matches as X is in degrees so 1-X frequently was < 0.
 	
 	2306 - Successfully completed task 2d/2c2 - got 31091 matches
+	2506 - Updated Task 1a y plotting the ENTIRE sky distribution from 2008-18 in HAMMER projections using (RA, DEC) and (Gal_lat, Gal_lon)
 	Waiting for next task
 		
 	
