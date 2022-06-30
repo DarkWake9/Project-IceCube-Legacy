@@ -114,7 +114,7 @@ Cautioned against practical issues
 	$|cos(\theta)-cos(5)|  < 0.5 x (1-cos X)$
 				 (theta is the angle between pulsar and neutrino event)
 				 
-## Week 8: 2106 - today 2506:
+## Week 8: 2106 - 2806:
 
 	Unsuccesfully tried GPU coding.
 
@@ -128,7 +128,21 @@ Cautioned against practical issues
 	2306 - Successfully completed task 2d/2c2 - got 31091 matches
 	2506 - Updated Task 1a y plotting the ENTIRE sky distribution from 2008-18 in HAMMER projections using (RA, DEC)
 												and (Gal_lat, Gal_lon)
-	Waiting for next task
+	2506 - Assigned Task 3
+	Task 3: a) Redo both sets of experiments after splitting the data energy wise (0.3-1 TeV, 1-3 TeV, 3-10 TeV)
+		b) After that for method 2 (when you are counting no of matches within the neutrino error circle) 
+			instead of counting the background events by looking at the no of neutrino-MSP pairs 
+			within the same cos(error region) offset by 5 degrees,
+			follow the same method as in https://arxiv.org/pdf/2112.11375v1.pdf which is briefly summarized:
+
+			1. Generate a synthetic catalog of MSPs uniformly distributed in the same RA and DEC range as observed population
+			2, Count no of coincidences  within neutrino error circle for the synthetic catalog in (1). 
+			3. Repeat step (1) and (2) 100 times and take the average.
+	2706 - Got method 1. Method 2 unsuccesful
+			
+## Week 9: 2806 - 0407:
+	3006 - Primitive attempt of method 2
+	0107 - Successful attempt at method 2 but without generating the synthtic catalogue 100 times (@01.43)
 		
 	
 		
