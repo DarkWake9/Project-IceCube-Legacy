@@ -39,40 +39,78 @@ def hvovec(lon1, lat1, lon2, lat2):
 
     return (np.rad2deg(np.arccos(a)), a)
 
+def hvcvec(lon1, lat1, lon2, lat2):
+
+    #Convert decimal degrees to Radians:
+    lon1 = np.radians(lon1)
+    lat1 = np.radians(lat1)
+    lon2 = np.radians(lon2)
+    lat2 = np.radians(lat2)
+
+    #Implementing Haversine Formula: 
+    dlon = np.subtract(lon2, lon1)
+    #dlat = np.subtract(lat2, lat1)
+
+    a = np.add(np.multiply(np.sin(lat1), np.sin(lat2)), np.multiply(np.multiply(np.cos(lat1), np.cos(lat2)), np.cos(dlon)))
+
+    return a
+
 ##########################################################################################################################################################################
 
 #CALCULATES THE SPACE ANGLE VECTORS AND RETURNS THEM BY REPLACING EXTENDED VALUES WITH "NONE"
 
-def t2a2b(icra, icdec, msra, msdec, extensions):
-    ft2a = []
-    ft2b = []
-    for x in range(3):
-        st2a = []
-        st2b = []
-        lg = int(len(icra[x])/len(msra))
-        p = len(msra)    
-        for k in range(lg):
-            ilo = icra[x][k * p  :p * k + p]
-            ila = icdec[x][k * p  :p * k + p]
-            lo =[]
-            la = []
-            #t2a = []
-            #t2b = []
-            for j in range(p):#441
-                lo = [msra[(i + j)%p] for i in range(0,p)]
-                la = [msdec[(i + j)%p] for i in range(0,p)]
-                hvs = hvovec(ilo, ila, lo, la)       #2A, 2C
-                st2a.append(hvs[0])
-                st2b.append(hvs[1])
-                if k == lg - 1:
-                    st2a[-1][extensions[x]:] = None
-                    st2b[-1][extensions[x]:] = None
+def t2a2b(icra, icdec, msra, msdec, extensions, which='b'):
+    if which == 'both':
+        ft2a = []
+        ft2b = []
+        for x in range(3):
+            st2a = []
+            st2b = []
+            lg = int(len(icra[x])/len(msra))
+            p = len(msra)    
+            for k in range(lg):
+                ilo = icra[x][k * p  :p * k + p]
+                ila = icdec[x][k * p  :p * k + p]
+                lo =[]
+                la = []
+                #t2a = []
+                #t2b = []
+                for j in range(p):#441
+                    lo = [msra[(i + j)%p] for i in range(0,p)]
+                    la = [msdec[(i + j)%p] for i in range(0,p)]
+                    hvs = hvovec(ilo, ila, lo, la)       #2A, 2C
+                    st2a.append(hvs[0])
+                    st2b.append(hvs[1])
+                    if k == lg - 1:
+                        st2a[-1][extensions[x]:] = None
+                        st2b[-1][extensions[x]:] = None
 
-        l = np.ravel(st2a)
-        m = np.ravel(st2b)
-        ft2a.append(l)
-        ft2b.append(m)
-    return(ft2a, ft2b)
+            l = np.ravel(st2a)
+            m = np.ravel(st2b)
+            ft2a.append(l)
+            ft2b.append(m)
+        return(ft2a, ft2b)
+    else:
+        ft2a = []
+        for x in range(3):
+            st2a = []
+            lg = int(len(icra[x])/len(msra))
+            p = len(msra)    
+            for k in range(lg):
+                ilo = icra[x][k * p  :p * k + p]
+                ila = icdec[x][k * p  :p * k + p]
+                lo =[]
+                la = []
+                for j in range(p):#441
+                    lo = [msra[(i + j)%p] for i in range(0,p)]
+                    la = [msdec[(i + j)%p] for i in range(0,p)]
+                    st2a.append(hvcvec(ilo, ila, lo, la))
+                    if k == lg - 1:
+                        st2a[-1][extensions[x]:] = None
+
+            l = np.ravel(st2a)
+            ft2a.append(l)
+        return ft2a
 
 ##########################################################################################################################################################################
 
