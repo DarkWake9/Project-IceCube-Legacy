@@ -143,6 +143,9 @@ Cautioned against practical issues
 ## Week 9: 2806 - 0407:
 	3006 - Primitive attempt of method 2
 	0107 - Successful attempt at method 2 but without generating the synthtic catalogue 100 times (@01.43)
+	0107 - Correct attempt at method 2 but taking too long to execute(Predicted time of completion was 18.22(400 mins)
+		But practically the code kept running from 13.42 - 23.41 and @23.41, the kernel was manually interrupted!!!)
+		Looking for another way(one way I thought of is parallelization of code. Now have to learn it)
 		
 	
 		
