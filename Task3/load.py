@@ -126,7 +126,7 @@ def t2bs(ft2b):
     midpt = np.array(midpt[:-1])
     mean = [np.dot(freq1[i], midpt)/float(np.sum(midpt)) for i in range(3)]
     signal = [freq[i][-1] for i in range(3)]
-    return(freq, nbins, mean, signal)
+    return(mean, signal)
 
 ##########################################################################################################################################################################
 
