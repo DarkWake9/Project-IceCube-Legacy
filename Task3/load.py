@@ -109,8 +109,41 @@ def t2a2b(icra, icdec, msra, msdec, extensions, which='b'):
                         st2a[-1][extensions[x]:] = None
 
             l = np.ravel(st2a)
+            for i in range(len(l)):
+                if l[i] == None:
+                    l.pop(i)
             ft2a.append(l)
         return ft2a
+
+#CALCULATES THE COS(SPACE ANGLE) VECTORS AND RETURNS THEM BY REMOVING THE EXTENDED VALUES
+
+def t2b(icra, icdec, msra, msdec, extensions):
+    p = len(msra)
+    cosdisb = []
+    ft2a = []
+    for x in range(3):
+        st2a = []
+        lg = int(len(icra[x])/len(msra))
+        p = len(msra)    
+        for k in range(lg):
+            ilo = icra[x][k * p  :p * k + p]
+            ila = icdec[x][k * p  :p * k + p]
+            lo =[]
+            la = []
+            for j in range(p):#441
+                lo = [msra[(i + j)%p] for i in range(0,p)]
+                la = [msdec[(i + j)%p] for i in range(0,p)]
+                st2a.append(hvcvec(ilo, ila, lo, la))
+                if k == lg - 1:
+                    st2a[-1][extensions[x]:] = None
+
+        l = np.ravel(st2a)
+        #REMOVING THE ERRONEOUS DATA AS
+        for i in range(len(l)):
+            if l[i] == None:
+                l.pop(i)
+        ft2a.append(l)
+    return ft2a
 
 ##########################################################################################################################################################################
 
@@ -126,7 +159,7 @@ def t2bs(ft2b):
     midpt = np.array(midpt[:-1])
     mean = [np.dot(freq1[i], midpt)/float(np.sum(midpt)) for i in range(3)]
     signal = [freq[i][-1] for i in range(3)]
-    return(mean, signal)
+    return(mean, signal, freq)
 
 ##########################################################################################################################################################################
 
@@ -134,7 +167,7 @@ def t2bs(ft2b):
 
 def t2c(icra, icdec, icangerr, msra, msdec, extensions):
     p = len(msra)
-    bgcount = []
+    match_count = []
     for x in range(3):
         r = 0
         lg = int(len(icra[x])/len(msra))
@@ -150,16 +183,16 @@ def t2c(icra, icdec, icangerr, msra, msdec, extensions):
                         lo = [msra[(i + j)%p] for i in range(0,p)]
                         la = [msdec[(i + j)%p] for i in range(0,p)]
                         hvsang = hvovec(ilo, ila, lo, la)[0]
-                        #if k == lg - 1:
-                            #hvsang[extensions:] = None
-                            #hvsang[extensions:] = None
+                        if k == lg - 1:
+                            hvsang[extensions[x]:] = None
                         for l in range(p):
-                            if hvsang[l] != None and l < extensions[x]:
+                            if hvsang[l] != None:
+                            #if hvsang[l] != None and l < extensions[x]:
                                 if abs(hvsang[l]) <= icangerr[x][k*p + l]:
                                     #r.append([k,j,l, hvsang[l], icangerr[k*p + l]])
                                     r=r + 1
-        bgcount.append(r)
-    return bgcount
+        match_count.append(r)
+    return match_count
 
 #####################################################################################
 
@@ -181,7 +214,7 @@ def t2cfromt2a(sp_ang, icangerr, licra, lmsra):
 
 ##########################################################################################################################################################################
 
-''' THIS METHOD CALCULATES THE HAVERSINE ANGLES (IN BATCHES) AND IF THAT it satisfies $|cos(\theta)-cos(5)|  < 0.5 x (1-cos X)
+''' THIS METHOD CALCULATES THE HAVERSINE ANGLES (IN BATCHES) AND IF THAT it satisfies $|cos(\theta)-cos(5)|  < 0.5 x (1-cos X)$
 
     Then the variable bgdcount (which counts the #background events) is increased by 1'''
 
@@ -224,7 +257,6 @@ def t2d(icra, icdec, icangerr, msra, msdec, extensions):
                         la = [msdec[(i + j)%p] for i in range(0,p)]
                         hvscos = hvocos(ilo, ila, lo, la)
                         if k == lg - 1:
-                            hvscos[extensions[x]:] = None
                             hvscos[extensions[x]:] = None
                         lo = []
                         la = []
