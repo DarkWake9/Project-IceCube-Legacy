@@ -118,6 +118,8 @@ def t2a2b(icra, icdec, msra, msdec, extensions, which='b'):
 #CALCULATES THE COS(SPACE ANGLE) VECTORS AND RETURNS THEM BY REMOVING THE EXTENDED VALUES
 
 def t2b(icra, icdec, msra, msdec, extensions):
+    nbins = np.linspace(np.cos(np.radians(7.35)), np.cos(0),  7)
+    freq = [[0,0,0,0,0,0] , [0,0,0,0,0,0] , [0,0,0,0,0,0]]
     p = len(msra)
     cosdisb = []
     ft2a = []
@@ -136,15 +138,20 @@ def t2b(icra, icdec, msra, msdec, extensions):
                 st2a.append(hvcvec(ilo, ila, lo, la))
                 if k == lg - 1:
                     st2a[-1][extensions[x]:] = None
-
-        l = np.ravel(st2a)
-        #REMOVING THE ERRONEOUS DATA AS
-        for i in range(len(l)):
-            if l[i] == None:
-                l.pop(i)
-        ft2a.append(l)
-    return ft2a
-
+                for i in st2a[-1]:
+                    if i != None:
+                        for m in range(len(nbins) - 1):
+                            if i >= nbins[m] and i < nbins[m+1]:
+                                freq[x][m] += 1
+                            if m == len(nbins) - 1:
+                                if i == nbins[m+1]:
+                                    freq[x][m] += 1
+    freq1 = [freq[i][:-1]for i in range(3)]
+    midpt = [(nbins[i+1] + nbins[i])/2.0 for i in range(len(nbins) - 1)]
+    midpt = np.array(midpt[:-1])
+    mean = [np.dot(freq1[i], midpt)/float(np.sum(midpt)) for i in range(3)]
+    signal = [freq[i][-1] for i in range(3)]
+    return(mean, signal, freq)
 ##########################################################################################################################################################################
 
 #GENERATES THE HISTOGRAM AND THE BACKGROUND AND THE SIGNAL VALUES FROM THE GIVEN COSINE DISTRIBUTION
