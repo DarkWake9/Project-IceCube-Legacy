@@ -135,18 +135,27 @@ Cautioned against practical issues
 			within the same cos(error region) offset by 5 degrees,
 			follow the same method as in https://arxiv.org/pdf/2112.11375v1.pdf which is briefly summarized:
 
-			1. Generate a synthetic catalog of MSPs uniformly distributed in the same RA and DEC range as observed population
+			1. Generate a synthetic catalog of MSPs uniformly distributed
+				in the same RA and DEC range as observed population
 			2, Count no of coincidences  within neutrino error circle for the synthetic catalog in (1). 
 			3. Repeat step (1) and (2) 100 times and take the average.
 	2706 - Got method 1. Method 2 unsuccesful
 			
-## Week 9: 2806 - 0407:
+## Week 9: 2806 - 0507:
 	3006 - Primitive attempt of method 2
-	0107 - Successful attempt at method 2 but without generating the synthtic catalogue 100 times (@01.43)
-	0107 - Correct attempt at method 2 but taking too long to execute(Predicted time of completion was 18.22(400 mins)
+	0107 - Seemingly Successful attempt at method 2 but without generating the synthtic catalogue 100 times (@01.43)
+	0107 - Seemingly Correct attempt at method 2 but taking too long to execute(Predicted time of completion was 18.22(400 mins)
 		But practically the code kept running from 13.42 - 23.41 and @23.41, the kernel was manually interrupted!!!)
 		Looking for another way(one way I thought of is parallelization of code. Now have to learn it)
-		
+	0207 - Parallelized code execution with multithreading (12 Threads) and 
+		the execution time was 130 mins for 100 synthetic catalogues
+	0307 - Pointed out that **#Background** must be ~= to **#Signal** events.
+	0407 - Could not find any error in the code while debugging
+	0507-0607 - Made some very minor changes to the code and got **#Background** ~= **#Signal** and committed to ghb
+	
+	
+## 0607 - 1307: BREAK (VACATION)
+	
 	
 		
 
