@@ -90,6 +90,36 @@ def t2a2b(icra, icdec, msra, msdec, extensions, which='b'):
             ft2a.append(l)
             ft2b.append(m)
         return(ft2a, ft2b)
+    elif which == 'a':
+        ft2a = []
+        ft2b = []
+        for x in range(3):
+            st2a = []
+            st2b = []
+            lg = int(len(icra[x])/len(msra))
+            p = len(msra)    
+            for k in range(lg):
+                ilo = icra[x][k * p  :p * k + p]
+                ila = icdec[x][k * p  :p * k + p]
+                lo =[]
+                la = []
+                #t2a = []
+                #t2b = []
+                for j in range(p):#441
+                    lo = [msra[(i + j)%p] for i in range(0,p)]
+                    la = [msdec[(i + j)%p] for i in range(0,p)]
+                    hvs = hvovec(ilo, ila, lo, la)       #2A, 2C
+                    st2a.append(hvs[0])
+             #       st2b.append(hvs[1])
+                    if k == lg - 1:
+                        st2a[-1][extensions[x]:] = None
+             #           st2b[-1][extensions[x]:] = None
+
+            l = np.ravel(st2a)
+            #m = np.ravel(st2b)
+            ft2a.append(l)
+            #ft2b.append(m)
+            return(ft2a, ft2b)
     else:
         ft2a = []
         for x in range(3):
