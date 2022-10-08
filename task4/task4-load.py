@@ -1,4 +1,3 @@
-####
 import numpy as np
 import pandas as pd
 import os
@@ -6,6 +5,7 @@ import multiprocessing as mul
 from multiprocessing import Process
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy.optimize import minimize
 
 #### [markdown]
 # ## IMPORTING AND SORTING THE DATA
@@ -95,102 +95,6 @@ def import_psrdata(path = "/media/darkwake/VIB2/Project-IceCube/10milsecpsr.txt"
     return mspdata
 
 
-#### [markdown]
-# uptime_path = path.replace('events', 'uptime/')
-# filenames = ["IC40_exp.csv", "IC59_exp.csv","IC79_exp.csv", "IC86_I_exp.csv", "IC86_II_exp.csv",
-# "IC86_III_exp.csv", "IC86_IV_exp.csv", "IC86_V_exp.csv", "IC86_VI_exp.csv", "IC86_VII_exp.csv"]
-# #filenames=["icecube_10year_ps/uptime/IC40_exp.csv", "icecube_10year_ps/uptime/IC59_exp.csv","icecube_10year_ps/uptime/IC79_exp.csv","icecube_10year_ps/uptime/IC86_I_exp.csv","icecube_10year_ps/uptime/IC86_II_exp.csv","icecube_10year_ps/uptime/IC86_III_exp.csv","icecube_10year_ps/uptime/IC86_IV_exp.csv","icecube_10year_ps/uptime/IC86_V_exp.csv","icecube_10year_ps/uptime/IC86_VI_exp.csv","icecube_10year_ps/uptime/IC86_V_exp.csv"]
-# 
-# file = filenames[0]
-# f = open(os.path.join(uptime_path, file), 'r')
-# lines = f.readlines()
-# column=lines[0].split()
-# column.pop(0)
-# content = []
-# f.close()
-# for file in filenames:
-#     f = open(os.path.join(uptime_path, file), 'r')
-#     lines = f.readlines()
-#     for line in lines[1:]:
-#         content.append(line.split())
-#     f.close()
-# icupdata = pd.DataFrame(content, columns=column)
-# '''icupdata = icupdata.sort_values('log10(E/GeV)')
-# icupdata = icupdata.reset_index()
-# icupdata = icupdata.drop('index', axis=1)'''
-
-#### [markdown]
-# icupdata
-
-#### [markdown]
-# #uptime = np.float(icupdata['MJD_stop[days]'].values) - np.float(icupdata['MJD_start[days]'].values)
-# tstart = [float(i) for i in icupdata['MJD_start[days]']]
-# tstop = [float(i) for i in icupdata['MJD_stop[days]']]
-# tmid = [float(i) for i in icdata['MJD[days]']]
-# 
-# def upt(t):
-#     for i in range(len(tstart)):
-#         if (t > tstart[i]) and (t < tstop[i]):
-#             #tupt.append(t - tstart[i])
-#             #break
-#             return (t - tstart[i])*86400
-# pool = mul.Pool()
-# op_async = pool.map_async(upt, tmid)
-# uptime = op_async.get()
-
-#### [markdown]
-# len(uptime)
-# op_async = []
-# pool = []
-# uptime[9]
-
-#### [markdown]
-# icdata.insert(6, column='uptime', value=uptime)
-
-#### [markdown]
-# #icecube_10year_ps/irfs/
-# effa_path = path.replace('events', 'irfs')
-# filenames = ["IC40_exp.csv", "IC59_exp.csv","IC79_exp.csv", "IC86_I_exp.csv", "IC86_II_exp.csv"]
-# file = filenames[0].replace('_exp', '_effectiveArea')
-# f = open(os.path.join(effa_path, file), 'r')
-# lines = f.readlines()
-# column=lines[0].split()
-# column.pop(0)
-# content = []
-# f.close()
-# for file in filenames:
-#     file  = file.replace('_exp', '_effectiveArea')
-#     f = open(os.path.join(effa_path, file), 'r')
-#     lines = f.readlines()
-#     for line in lines[1:]:
-#         content.append(line.split())
-#     f.close()
-# iceadata = pd.DataFrame(content, columns=column)
-
-#### [markdown]
-# iceadata
-
-####
-icdata2
-
-####
-mspdata
-
-####
-max(mspdata['P0'])
-
-####
-#icdata2 = nu_10gev(import_icdata())
-#mspdata = import_psrdata()
-msra = [float(i) for i in mspdata['RAJD']]
-msdec = [float(i) for i in mspdata['DECJD']]
-icra = [float(i) for i in icdata2['RA[deg]']]
-icdec = [float(i) for i in icdata2['Dec[deg]']]
-icang = [float(i) for i in icdata2['AngErr[deg]']]
-p = len(msra)
-lg = len(icra) // p + 1
-
-####
 def hvovec(lon1, lat1, lon2, lat2):
 
     #Convert decimal degrees to Radians:
@@ -206,7 +110,7 @@ def hvovec(lon1, lat1, lon2, lat2):
     a = np.add(np.multiply(np.sin(lat1), np.sin(lat2)), np.multiply(np.multiply(np.cos(lat1), np.cos(lat2)), np.cos(dlon)))
 
     return np.abs(np.rad2deg(np.arccos(a)))
-
+'''
 ####
 msra = [float(i) for i in mspdata['RAJD']]
 msdec = [float(i) for i in mspdata['DECJD']]
@@ -215,7 +119,7 @@ icdec = [float(i) for i in icdata2['Dec[deg]']]
 icang = [float(i) for i in icdata2['AngErr[deg]']]
 p = len(msra)
 lg = len(icra) // p + 1
-
+'''
 ####
 def angfinder(b):
     ang = []
@@ -542,33 +446,9 @@ def TS(ns, S, B, N):
     return ts
 ts = TS(ns, S, B, N)
 
-####
-np.array(ts)
-ts[0]
 
-#### [markdown]
-# We use the same unbinned likelihood method as in ~\cite{Hooper,Kamionkowski,LuoZhang} which was first proposed in ~\cite{Montaruli10}. Similar to ~\cite{LuoZhang}, we only select those neutrino events, whose angular distance  is within $20^{\circ}$ of a MSP.  For a dataset of $N$ events, if $n_s$ signal events are attributed to a millisecond pulsar, the probability density of an individual event $i$ is given by:
-# \begin{equation}
-# P_i = \frac{n_s}{N} S_i + (1-\frac{n_s}{N}) B_i,
-# %\label{eq1}
-# \end{equation}
-# where $S_i$ and $B_i$ represent the signal and background pdfs, respectively.
-# The likelihood function ($\mathcal{L}$) of the entire dataset, obtained from the product of each individual PDF can be written as 
-# \begin{equation}
-# \mathcal{L} (n_s) = \prod_{i=1}^N P_i,
-# \end{equation}
-# where $P_i$ is the same as in Eq.~\ref{eq1}. The signal PDF is given by
-# \begin{equation}
-# S_i = \frac{1}{2\pi\sigma_i^2}e^{-(|\theta_i-\theta_s|)^2/2\sigma_i^2}
-# \end{equation}
-# where $|\theta_i-\theta_s|$ is the angular distance between the  MSP and the neutrino, whereas $\sigma_i$ is the angular uncertainty in the neutrino position.
-# The background PDF is determined from the average number of events per solid angle  within a declination of $\pm 3^{\circ}$ after averaging over RA. We do not incorporate  the energy information, since the pubic IceCube catalog only contains the energy of the reconstructed muon. The detection statistic used to ascertain the presence of a signal is given by:
-# \begin{equation}
-# TS (n_s) = 2 \log \frac{\mathcal{L} (n_s)}{\mathcal{L} (0)}
-# \end{equation}
-#  If the null hypothesis is true, $TS (n_s)$ obeys the $\chi^2$ distribution for one degree of freedom. We calculated $TS (n_s)$ for all MSPs in the  catalog.
 
-####
+
 
 
 ####
