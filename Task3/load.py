@@ -6,12 +6,12 @@
 import numpy as np
 import pandas as pd
 import scipy as sp
-
+from numba import jit
 
 ##########################################################################################################################################################################
 
 #GENERATES A SYNTHETIC CATALOGUE OF RA, DEC COORDINATES UNIFORMLY DISTIBUTED IN THE SAME RANGE AS IN OBSERVED POPULATION
-
+@jit(nopython=True)
 def gen_cat(minra, maxra, mindec, maxdec):
 
     msra2 = [np.random.uniform(minra, maxra) for i in range(441)]
@@ -22,7 +22,7 @@ def gen_cat(minra, maxra, mindec, maxdec):
 ##########################################################################################################################################################################
 
 #METHOD TO REURN THE SPACE ANGLE(in degrees) BETWEEN 2 PAIRS OF RA AND DEC COORDINATE VECTORS, AND IT'S COSINE VECTORS
-
+@jit(nopython=True)
 def hvovec(lon1, lat1, lon2, lat2):
 
     #Convert decimal degrees to Radians:
@@ -38,7 +38,7 @@ def hvovec(lon1, lat1, lon2, lat2):
     a = np.add(np.multiply(np.sin(lat1), np.sin(lat2)), np.multiply(np.multiply(np.cos(lat1), np.cos(lat2)), np.cos(dlon)))
 
     return (np.rad2deg(np.arccos(a)), a)
-
+@jit(nopython=True)
 def hvcvec(lon1, lat1, lon2, lat2):
 
     #Convert decimal degrees to Radians:
@@ -58,7 +58,7 @@ def hvcvec(lon1, lat1, lon2, lat2):
 ##########################################################################################################################################################################
 
 #CALCULATES THE SPACE ANGLE VECTORS AND RETURNS THEM BY REPLACING EXTENDED VALUES WITH "NONE"
-
+@jit(nopython=True)
 def t2a2b(icra, icdec, msra, msdec, extensions, which='b'):
     if which == 'both':
         ft2a = []
@@ -146,7 +146,7 @@ def t2a2b(icra, icdec, msra, msdec, extensions, which='b'):
         return ft2a
 
 #CALCULATES THE COS(SPACE ANGLE) VECTORS AND RETURNS THEM BY REMOVING THE EXTENDED VALUES
-
+@jit(nopython=True)
 def t2b(icra, icdec, msra, msdec, extensions):
     nbins = np.linspace(np.cos(np.radians(7.35)), np.cos(0),  7)
     freq = [[0,0,0,0,0,0] , [0,0,0,0,0,0] , [0,0,0,0,0,0]]
@@ -185,7 +185,7 @@ def t2b(icra, icdec, msra, msdec, extensions):
 ##########################################################################################################################################################################
 
 #GENERATES THE HISTOGRAM AND THE BACKGROUND AND THE SIGNAL VALUES FROM THE GIVEN COSINE DISTRIBUTION
-
+@jit(nopython=True)
 def t2bs(ft2b):
     nbins = np.linspace(np.cos(np.radians(7.35)), np.cos(0),  7)
 
@@ -201,7 +201,7 @@ def t2bs(ft2b):
 ##########################################################################################################################################################################
 
 #TAKES ICRA, ICDEC ANGERR, MSRA, MSDEC, EXTENSIONS AND RETURNS THE no.of MATCHES r
-
+@jit(nopython=True)
 def t2c(icra, icdec, icangerr, msra, msdec, extensions):
     p = len(msra)
     match_count = []
@@ -255,7 +255,7 @@ def t2cfromt2a(sp_ang, icangerr, licra, lmsra):
 
     Then the variable bgdcount (which counts the #background events) is increased by 1'''
 
-
+@jit(nopython=True)
 def hvocos(lon1, lat1, lon2, lat2):
     cos5 = np.cos(np.deg2rad(5))
     #Convert decimal degrees to Radians:
@@ -272,7 +272,7 @@ def hvocos(lon1, lat1, lon2, lat2):
 
     return a
 
-
+@jit(nopython=True)
 def t2d(icra, icdec, icangerr, msra, msdec, extensions):
     canger = [0.5 * (1-np.cos(np.deg2rad(i))) for i in icangerr]
     background = []    
