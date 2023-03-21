@@ -94,3 +94,5 @@ class weights:
         self.all_weights = np.asfarray(self.all_weights)
         self.sum_weights = [np.sum(i) for i in self.all_weights]
         self.sum_weights = np.asfarray(self.sum_weights)
+
+
