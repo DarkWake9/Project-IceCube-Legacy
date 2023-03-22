@@ -1,51 +1,11 @@
-from numba import jit, njit
+from numba import njit, prange
 import numpy as np
 from scipy.optimize import minimize
 from core import readfiles
 
-all_data = readfiles.Data()
-icdata = all_data.icdata
-uptdata = all_data.uptdata
-eadata = all_data.eadata
-mspdata = all_data.mspdata
-all_data = []
-
-icwidths = [int(i) for i in "0 36900 107011 93133 136244 112858 122541 127045 129311 123657 145750".split(' ')]
-ictimes = [float(i) for i in icdata['MJD[days]']]
-icparts = [np.sum(icwidths[:i]) for i in range(1,len(icwidths)+1)]  #paritions of icdata for each season (IC40, IC59, IC79, IC86_I, IC86_II)
-
-upt_icparts = icparts[:5]
-upt_icparts.append(icparts[-1])
+from core.req_arrays import *
 
 
-log_e = np.round(np.arange(2, 10.2, 0.2), 2) #log10(E/GeV) values range as in all 'effectiveArea' files
-
-#dec_nu = mid point of Dec_nu_min and Dec_nu_max as in all 'effectiveArea' files
-dec_nu = list(set(eadata[0]['Dec_nu_min[deg]'].values).union(set(eadata[0]['Dec_nu_max[deg]'].values)))
-
-dec_nu.sort()
-dec_nu = np.array(dec_nu)
-
-e_nu = ((10**(log_e[:-1])+ 10**(log_e[1:]))/2)*1e9
-de_nu = 1e9*(10**log_e[1:] - 10**log_e[:-1])
-
-
-
-msra = np.array([float(i) for i in mspdata['RAJD'].values])
-msdec = np.array([float(i) for i in mspdata['DECJD'].values])
-icra = np.array([float(i) for i in icdata['RA[deg]']])
-icdec = np.array([float(i) for i in icdata['Dec[deg]']])
-icang = np.array([float(i) for i in icdata['AngErr[deg]']])
-iceng = np.array([float(i) for i in icdata['log10(E/GeV)']])
-global p, lg, lnu
-p = len(msra)
-lg = len(icra) // p + 1
-lnu = len(icra)
-upstop_ttt = np.asfarray([uptdata[i]['MJD_stop[days]'].values[-1] for i in range(len(uptdata))])
-upstart_ttt = np.asfarray([uptdata[i]['MJD_start[days]'].values[0] for i in range(len(uptdata))])
-earea = np.array([eadata[i]['A_Eff[cm^2]'].values for i in range(len(eadata))]) * 1e-4
-vec_uptparts = np.asarray(upt_icparts, dtype=np.int64)
-upt_icparts = np.asarray(upt_icparts)
 
 @njit
 def psr_wt_quick(nusample_wall, psrno, gamma = 1):
@@ -88,11 +48,11 @@ def psr_wt_quick(nusample_wall, psrno, gamma = 1):
 class weights:
     def __init__(self, gamma):
         self.gamma = gamma
-        self.all_weights = []
-        for i in range(len(upt_icparts)-1):
-            self.all_weights.append([psr_wt_quick(i, psrno, gamma) for psrno in range(p)])
-        self.all_weights = np.asfarray(self.all_weights)
-        self.sum_weights = [np.sum(i) for i in self.all_weights]
-        self.sum_weights = np.asfarray(self.sum_weights)
+        all_weights = []
+        for i in prange(len(upt_icparts)-1):
+            all_weights.append([psr_wt_quick(i, psrno, gamma) for psrno in range(p)])
+        self.all_weights = np.asfarray(all_weights)
+        sum_weights = [np.sum(i) for i in self.all_weights]
+        self.sum_weights = np.asfarray(sum_weights)
 
 
