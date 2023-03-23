@@ -1,3 +1,9 @@
+############################################################################################################################
+# This code downloads the 2008-2018 data release file from the IceCube website
+
+# The data is stored in the current folder
+############################################################################################################################
+
 import requests
 import os
 import wget
