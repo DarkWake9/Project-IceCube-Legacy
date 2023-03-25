@@ -27,15 +27,22 @@ from core.req_arrays import *
 def psr_wt_quick(nusample_wall, psrno, gamma = 1):
 
     '''
+    EQN 8 OF 2205.15963
+    -------------------
+
     Parameters
     ----------
     nusample_wall : float
-        The index of catalogue of the given neutrino
+        The index of catalogue of the given neutrino ===> season
     psrno : int
         The index of the pulsar in the ATNF catalogue
     gamma : float, optional
         (default) 1
         The spectral index of the power law
+
+    Returns
+    -------
+    
     Returns the weight of psrno^th pulsar for a given neutrino sample {nusample_wall}
     '''
     
@@ -53,11 +60,10 @@ def psr_wt_quick(nusample_wall, psrno, gamma = 1):
     ea_temp = earea[nusample_wall][d_ind*40:(d_ind+1)*40]
     
     #earea = np.array(ea_temp['A_Eff[cm^2]'].values) * 1e-4
-    
+
+    # THIS LINE FOLLOWS EQN 8 OF 2205.15963
     weight_kj = t_upt * np.sum(np.multiply(np.multiply(ea_temp, np.power(e_nu, gamma)), de_nu))
-    
     #sleep(1e-8)
-    
     return weight_kj   
                        
             

@@ -99,6 +99,8 @@ dec_nu = list(set(eadata[0]['Dec_nu_min[deg]'].values).union(set(eadata[0]['Dec_
 dec_nu.sort()
 dec_nu = np.array(dec_nu)
 
+e_nu_wall = np.asarray((10**log_e) * 1e9)
+
 e_nu = ((10**(log_e[:-1])+ 10**(log_e[1:]))/2)*1e9
 de_nu = 1e9*(10**log_e[1:] - 10**log_e[:-1])
 
