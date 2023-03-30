@@ -122,7 +122,7 @@ def dfde(e_nu, gamma, phi0 = 1e-40):
         The spectral index of the neutrino flux
     
     phi0 : float (optional)
-        The normalization constant of the neutrino flux
+        The normalization constant of the neutrino flux in eV^-1. The default is 1e-40.
     
     Returns
     -------
@@ -130,7 +130,7 @@ def dfde(e_nu, gamma, phi0 = 1e-40):
         The differential flux of neutrinos
     '''
 
-    return phi0 * ((e_nu/(10**14))**gamma)
+    return phi0 * ((e_nu/(10**14))**gamma)      #eV^-1
 
 
 @njit(fastmath=True)

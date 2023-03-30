@@ -75,7 +75,7 @@ def hvovec(lon1=0.0, lat1=0.0, lon2=0.0, lat2=0.0, rad=False):
     a = np.add(np.multiply(np.sin(lat1), np.sin(lat2)), np.multiply(np.multiply(np.cos(lat1), np.cos(lat2)), np.cos(dlon)))
 
     if rad == True:
-        return np.arccos(a)
+        return np.arccos(a)         #In Radians
     else:
         return np.abs(np.arccos(a)/deg2rad_var)
 
@@ -98,9 +98,9 @@ def S_ij(nu):
     -------
         Returns the signal PDF for the {psrno}th pulsar and nuind_inp neutrino
     '''
-    ang2 = hvovec(msra, msdec, icra[nu], icdec[nu], rad=True) ** 2#, icra[nuind], icdec[nuind], rad=True) ** 2
-    sg = np.deg2rad(icang[nu]) ** 2
-    return np.divide(np.exp(-1 * np.divide(ang2, 2*sg)), (2 * np.pi * sg))
+    ang2 = hvovec(msra, msdec, icra[nu], icdec[nu], rad=True) ** 2      #rad**2
+    sg = np.deg2rad(icang[nu]) ** 2                                     #rad**2
+    return np.divide(np.exp(-1 * np.divide(ang2, 2*sg)), (2 * np.pi * sg))      #1/rad**2
 
 @jit(nopython=True, fastmath=True)
 def S_i(nu, all_weights, sum_weights, wall):
@@ -125,7 +125,7 @@ def S_i(nu, all_weights, sum_weights, wall):
     sij = S_ij(nu)
     
     #sleep(1e-8)
-    return np.sum(np.multiply(sij, all_weights[wall] / sum_weights[wall]))
+    return np.sum(np.multiply(sij, all_weights[wall] / sum_weights[wall]))      #1/rad**2
     #return np.dot(sij, all_weights[wall] ) / sum_weights[wall]
 
 
@@ -159,7 +159,7 @@ def Bi_stacked(nu, cone=5):
     #     if abs(icdec[i] - icdec[nu]) <= cone:
     #         count+=1
     binwidth = (np.sin(np.deg2rad(icdec[nu] + cone)) - np.sin(np.deg2rad(icdec[nu] - cone)))*2*np.pi
-    return count/(binwidth * lnu)
+    return count/(binwidth * lnu)           #No units or sr**-1
 
 
 # @jitclass

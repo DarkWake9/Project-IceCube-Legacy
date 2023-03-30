@@ -79,7 +79,7 @@ all_data = []
 
 #ICECUBE DATA VECTORS
 icwidths = [int(i) for i in "0 36900 107011 93133 136244 112858 122541 127045 129311 123657 145750".split(' ')]
-ictimes = [float(i) for i in icdata['MJD[days]']]
+# ictimes = [float(i) for i in icdata['MJD[days]']]
 icparts = [np.sum(icwidths[:i]) for i in range(1,len(icwidths)+1)]  #paritions of icdata for each season (IC40, IC59, IC79, IC86_I, IC86_II)
 
 upt_icparts = icparts[:5]
@@ -88,11 +88,11 @@ upstop_ttt = np.asfarray([uptdata[i]['MJD_stop[days]'].values[-1] for i in range
 upstart_ttt = np.asfarray([uptdata[i]['MJD_start[days]'].values[0] for i in range(len(uptdata))])
 vec_uptparts = np.asarray(upt_icparts, dtype=np.int64)
 upt_icparts = np.asarray(upt_icparts)
-t_upt = np.asarray([upstop_ttt[season] - upstart_ttt[season] for season in range(len(upstart_ttt))])*86400
-
+t_upt = np.asarray([upstop_ttt[season] - upstart_ttt[season] for season in range(len(upstart_ttt))])*86400 #Convert days to seconds
+#t_upt in seconds
 
 log_e = np.round(np.arange(2, 10.2, 0.2), 2) #log10(E/GeV) values range as in all 'effectiveArea' files
-earea = np.array([eadata[i]['A_Eff[cm^2]'].values for i in range(len(eadata))])# * 1e-4
+earea = np.array([eadata[i]['A_Eff[cm^2]'].values for i in range(len(eadata))])     #cm2
 #dec_nu = Set of Declination walls in all 'effectiveArea' files
 dec_nu = list(set(eadata[0]['Dec_nu_min[deg]'].values).union(set(eadata[0]['Dec_nu_max[deg]'].values)))
 
@@ -101,20 +101,23 @@ dec_nu = np.array(dec_nu)
 
 e_nu_wall = np.asarray((10**log_e) * 1e9)
 
-e_nu = ((10**(log_e[:-1])+ 10**(log_e[1:]))/2)*1e9
-de_nu = 1e9*(10**log_e[1:] - 10**log_e[:-1])
+e_nu = ((10**(log_e[:-1])+ 10**(log_e[1:]))/2)*1e9          #E_nu in eV
+de_nu = 1e9*(10**log_e[1:] - 10**log_e[:-1])                #dE_nu in eV
 
 #ATNF PULSAR VECTORS
 
-msra = np.array([float(i) for i in mspdata['RAJD'].values])
-msdec = np.array([float(i) for i in mspdata['DECJD'].values])
-icra = np.array([float(i) for i in icdata['RA[deg]']])
-icdec = np.array([float(i) for i in icdata['Dec[deg]']])
-icang = np.array([float(i) for i in icdata['AngErr[deg]']])
-iceng = np.array([float(i) for i in icdata['log10(E/GeV)']])
+msra = np.array([float(i) for i in mspdata['RAJD'].values])         #RAJD in degrees
+msdec = np.array([float(i) for i in mspdata['DECJD'].values])       #DECJD in degrees
+icra = np.array([float(i) for i in icdata['RA[deg]']])              #RA in degrees
+icdec = np.array([float(i) for i in icdata['Dec[deg]']])            #Dec in degrees
+icang = np.array([float(i) for i in icdata['AngErr[deg]']])         #AngErr in degrees
+# iceng = np.array([float(i) for i in icdata['log10(E/GeV)']])
 global p, lg, lnu
 p = len(msra)
 lg = 1 + len(icra) // p
 lnu = len(icra)
 
 deg2rad_var = np.pi/180
+
+
+# All units check out:   eV, cm2, s, deg, GeV
