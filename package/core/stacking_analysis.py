@@ -4,6 +4,27 @@ from scipy.optimize import minimize
 
 vec_uptparts = np.array([0,   36900,  143911,  237044,  373288, 1134450])
 
+@jit(nopython=True, fastmath=True)
+def wall_nu(nu):
+    
+        '''
+        Parameters
+        ----------
+        nu : int
+            Index of the neutrino from IceCube sample
+        
+    
+        Returns
+        -------
+        int
+            Returns the index of the wall in which the {nu}th neutrino lies
+        '''
+        wall = 0
+        for i in range(len(vec_uptparts)-1):
+            if vec_uptparts[i] <= nu and vec_uptparts[i+1] > nu:
+                wall = i
+                break        
+        return wall
 
 
 @jit(nopython=True, fastmath=True)
@@ -37,28 +58,6 @@ def Pr(x, Ns, S, B):
     nsN = x/Ns
     return np.add(np.multiply(nsN , S), np.multiply(np.subtract(1, nsN), B))
 
-
-@jit(nopython=True, fastmath=True)
-def wall_nu(nu):
-    
-        '''
-        Parameters
-        ----------
-        nu : int
-            Index of the neutrino from IceCube sample
-        
-    
-        Returns
-        -------
-        int
-            Returns the index of the wall in which the {nu}th neutrino lies
-        '''
-        wall = 0
-        for i in range(len(vec_uptparts)-1):
-            if vec_uptparts[i] <= nu and vec_uptparts[i+1] > nu:
-                wall = i
-                break        
-        return wall
 
 
 @jit(nopython=True, fastmath=True)

@@ -1,3 +1,4 @@
 all_angles.csv
 *.csv
 *.zip
+core/__pycache__/

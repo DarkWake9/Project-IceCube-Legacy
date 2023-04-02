@@ -61,7 +61,7 @@ def psr_wt_quick(nusample_wall, psrno, gamma = 1):
 
 
     # THIS LINE FOLLOWS EQN 8 OF 2205.15963
-    weight_kj = t_upt * np.sum(np.multiply(np.multiply(ea_temp, np.power(e_nu, gamma)), de_nu))     #in s cm2 GeV^(gamma + 1)
+    weight_kj = t_upt * np.sum(np.multiply(np.multiply(ea_temp, np.power(e_nu, gamma)), de_nu))     #in s cm2 eV^(gamma + 1)
     #sleep(1e-8)
     return weight_kj   
                        
