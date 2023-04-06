@@ -66,7 +66,8 @@
 ###########################################################################################################################
 ###########################################################################################################################
 
-from core import readfiles
+from core import readfiles                     #Comment this line if you are using the CHIME data
+# from core import readfiles_CHIME as readfiles   #Comment this line if you are using the ATNF data
 import numpy as np
 import os
 
@@ -108,6 +109,9 @@ de_nu = 1e9*(10**log_e[1:] - 10**log_e[:-1])                #dE_nu in eV
 
 msra = np.array([float(i) for i in mspdata['RAJD'].values])         #RAJD in degrees
 msdec = np.array([float(i) for i in mspdata['DECJD'].values])       #DECJD in degrees
+# msra = np.array([float(i) for i in mspdata['ra'].values])         #RA CHIME in degrees
+# msdec = np.array([float(i) for i in mspdata['dec'].values])       #DEC CHIME in degrees
+
 icra = np.array([float(i) for i in icdata['RA[deg]']])              #RA in degrees
 icdec = np.array([float(i) for i in icdata['Dec[deg]']])            #Dec in degrees
 icang = np.array([float(i) for i in icdata['AngErr[deg]']])         #AngErr in degrees

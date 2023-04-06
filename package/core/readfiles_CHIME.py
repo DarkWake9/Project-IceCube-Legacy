@@ -121,5 +121,5 @@ class Data(): # type: ignore
         # print("read mspdata")
 
         #IMPORTING MSPDATA
-        self.mspdata = pd.read_csv(master_path + "ATNF.csv")
-        print("read mspdata")
+        self.mspdata = pd.read_csv(master_path + "chimefrbcat1.csv")
+        print("read mspdata=CHIME data")
