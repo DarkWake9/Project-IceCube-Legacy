@@ -4,7 +4,7 @@ from scipy.optimize import minimize
 
 vec_uptparts = np.array([0,   36900,  143911,  237044,  373288, 1134450])
 
-@jit(nopython=True, fastmath=True)
+@jit(nopython=True)
 def wall_nu(nu):
     
         '''
@@ -27,7 +27,7 @@ def wall_nu(nu):
         return wall
 
 
-@jit(nopython=True, fastmath=True)
+@jit(nopython=True)
 def Pr(x, Ns, S, B):
 
     '''
@@ -60,7 +60,7 @@ def Pr(x, Ns, S, B):
 
 
 
-@jit(nopython=True, fastmath=True)
+@jit(nopython=True)
 def TS_st(x, S, B, Ns):
 
     ''' 

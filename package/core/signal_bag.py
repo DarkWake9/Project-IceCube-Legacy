@@ -29,7 +29,7 @@ from core.req_arrays import *
 from core.stacking_analysis import wall_nu
 import multiprocessing as mul
 
-@jit(nopython=True, fastmath=True)
+@jit(nopython=True)
 def hvovec(lon1=0.0, lat1=0.0, lon2=0.0, lat2=0.0, rad=False):
 
     '''
@@ -81,7 +81,7 @@ def hvovec(lon1=0.0, lat1=0.0, lon2=0.0, lat2=0.0, rad=False):
 
 
 
-@jit(nopython=True, fastmath=True)
+@jit(nopython=True)
 def S_ij(nu): 
 
     '''
@@ -102,7 +102,7 @@ def S_ij(nu):
     sg = np.deg2rad(icang[nu]) ** 2                                     #rad**2
     return np.divide(np.exp(-1 * np.divide(ang2, 2*sg)), (2 * np.pi * sg))      #1/rad**2
 
-@jit(nopython=True, fastmath=True)
+@jit(nopython=True)
 def S_i(nu, all_weights, sum_weights, wall):
 
     '''
@@ -131,7 +131,7 @@ def S_i(nu, all_weights, sum_weights, wall):
 
 
 
-@jit(nopython=True, fastmath=True)
+@jit(nopython=True)
 def Bi_stacked(nu, cone=5):
 
     '''
@@ -184,7 +184,7 @@ class signals:
             wall = wall_nu(nu)  #Finding the wall/icecube season in which the nu^th neutrino lies
             return S_i(nu,  all_weights, sum_weights, wall)#,Ns]
 
-        pool = mul.Pool(8, maxtasksperchild=100)
+        pool = mul.Pool(int(mul.cpu_count*0.9), maxtasksperchild=200)
         op_async = pool.map_async(sigbag_nu, range(lnu))
         tmp = op_async.get()
         pool.close()
@@ -195,7 +195,7 @@ class signals:
         return self.all_sig
 
     def compute_background(self):
-        pool = mul.Pool(8, maxtasksperchild=100)
+        pool = mul.Pool(int(mul.cpu_count*0.9), maxtasksperchild=200)
         
         op_async = pool.map_async(Bi_stacked, prange(lnu))
         tmp = op_async.get()
