@@ -19,7 +19,7 @@
 
 
 
-from numba import jit, njit, prange
+from numba import jit, njit, prange, set_num_threads
 from numba.experimental import jitclass
 import numpy as np
 from scipy.optimize import minimize
@@ -28,6 +28,8 @@ from core import weights as weights
 from core.req_arrays import *
 from core.stacking_analysis import wall_nu
 import multiprocessing as mul
+
+set_num_threads(int(mul.cpu_count()*0.9))
 
 @jit(nopython=True)
 def hvovec(lon1=0.0, lat1=0.0, lon2=0.0, lat2=0.0, rad=False):
@@ -184,7 +186,7 @@ class signals:
             wall = wall_nu(nu)  #Finding the wall/icecube season in which the nu^th neutrino lies
             return S_i(nu,  all_weights, sum_weights, wall)#,Ns]
 
-        pool = mul.Pool(int(mul.cpu_count*0.9), maxtasksperchild=200)
+        pool = mul.Pool(int(mul.cpu_count()*0.9), maxtasksperchild=200)
         op_async = pool.map_async(sigbag_nu, range(lnu))
         tmp = op_async.get()
         pool.close()
@@ -195,7 +197,7 @@ class signals:
         return self.all_sig
 
     def compute_background(self):
-        pool = mul.Pool(int(mul.cpu_count*0.9), maxtasksperchild=200)
+        pool = mul.Pool(int(mul.cpu_count()*0.9), maxtasksperchild=200)
         
         op_async = pool.map_async(Bi_stacked, prange(lnu))
         tmp = op_async.get()

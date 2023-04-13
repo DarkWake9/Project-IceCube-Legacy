@@ -77,7 +77,7 @@ def TS_st(x, S, B, Ns):
 lnu = 1134450
 Ns = lnu#np.count_nonzero(nuind+1)
 
-@njit(fastmath=True)
+@njit(parallel=True)
 def Ts_arr2(x, S_all, B_all, Ns):
     '''
     Parameters
