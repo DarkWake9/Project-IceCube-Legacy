@@ -24,7 +24,7 @@ from core.req_arrays import *
 
 
 @njit
-def psr_wt_quick(nusample_wall, psrno, gamma = 1):
+def psr_wt_quick(nusample_wall, psrno, gamma = 1, weight_scheme = 0):
 
     '''
     EQN 8 OF 2205.15963
@@ -39,6 +39,12 @@ def psr_wt_quick(nusample_wall, psrno, gamma = 1):
     gamma : float, optional
         (default) 1
         The spectral index of the power law
+    weight_scheme : int, optional
+        (default) 0
+        The scheme of calculating the w_model
+        0: w_model = 1 : Uniform weight
+        1: w_model = 1 / (1 + d^2) : Weight inversely proportional to the square of the distance_DM
+        2: w_model = s_1400 : Weight proportional to the flux at 1400 MHz (mJy)
 
     Returns
     -------

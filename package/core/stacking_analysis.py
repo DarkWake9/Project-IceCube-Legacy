@@ -69,10 +69,10 @@ def TS_st(x, S, B, Ns):
         Returns the Test Stastic value at
         $n_s$ = {x} for its parameters S, B, Ns
     '''
-    if x >=0:
-        return np.sum(np.asfarray(2*np.log(Pr(x,  Ns, S, B)/B)))
-    else:
-        return -1
+    # if x >=0:
+    return np.sum(np.asfarray(2*np.log(Pr(x,  Ns, S, B)/B)))
+    # else:
+        # return -1
 
 lnu = 1134450
 Ns = lnu#np.count_nonzero(nuind+1)

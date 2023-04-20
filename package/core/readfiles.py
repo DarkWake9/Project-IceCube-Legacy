@@ -26,6 +26,7 @@ class Data(): # type: ignore
         column=lines[0].split()
         column.pop(0)
         content = []
+        season_length = []
         for file in self.filenames:
             f = open(os.path.join(self.path, file), 'r')
             lines = f.readlines()
@@ -33,6 +34,7 @@ class Data(): # type: ignore
             for line in lines[1:]:
                 content.append(line.split())
             f.close()
+            season_length.append(len(content))
         icdata = pd.DataFrame(content, columns=column, dtype=float)#.convert_dtypes(infer_objects=True,convert_integer=True,convert_floating=True)
         icdata['log10(E/GeV)'] = [float(i) for i in icdata['log10(E/GeV)']]
         icdata['MJD[days]'] = [float(i) for i in icdata['MJD[days]']]
@@ -40,6 +42,7 @@ class Data(): # type: ignore
         print("read icdata")
         f.close()
         self.icdata = icdata
+        self.season_length = season_length
 
 #Importing UPtime data
 # def uptime(self):
@@ -121,5 +124,12 @@ class Data(): # type: ignore
         # print("read mspdata")
 
         #IMPORTING MSPDATA
-        self.mspdata = pd.read_csv(master_path + "ATNF.csv")
+        # self.mspdata = pd.read_csv(master_path + "ATNF.csv")
+        mspdata = pd.read_csv(master_path + "ATNF.csv")
+        mspdata = mspdata[mspdata['DIST_DM'] != '*']
+        mspdata = mspdata[mspdata['S1400'] != '*']
+        self.mspdata = mspdata
         print("read mspdata")
+
+
+# print(Data('/media/darkwake/VIB2/IceCube-Package/Project-IceCube/package/data/').season_length)

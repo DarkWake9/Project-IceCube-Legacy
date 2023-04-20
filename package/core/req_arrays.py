@@ -46,6 +46,10 @@
 # de_nu: The difference of E_nu_min and E_nu_max as in all 'effectiveArea' files                                          #
 #                                                                                                                         #
 # earea: The effective area of the seasons in the effectiveArea data (in m^2)                                             #
+#                                                                                                                         # 
+# msdist: The distance of the pulsars in the ATNF catalogue (in kpc)                                                      #
+#                                                                                                                         #
+# mss1400: The flux at 1400 MHz of the pulsars in the ATNF catalogue (in mJy)                                             #
 #                                                                                                                         #
 ###########################################################################################################################
 
@@ -85,8 +89,8 @@ icparts = [np.sum(icwidths[:i]) for i in range(1,len(icwidths)+1)]  #paritions o
 
 upt_icparts = icparts[:5]
 upt_icparts.append(icparts[-1])
-upstop_ttt = np.asfarray([uptdata[i]['MJD_stop[days]'].values[-1] for i in range(len(uptdata))])
-upstart_ttt = np.asfarray([uptdata[i]['MJD_start[days]'].values[0] for i in range(len(uptdata))])
+upstop_ttt = np.asfarray([uptdata[i]['MJD_stop[days]'].values[-1] for i in range(len(uptdata))], dtype=np.float64)
+upstart_ttt = np.asfarray([uptdata[i]['MJD_start[days]'].values[0] for i in range(len(uptdata))], dtype=np.float64)
 vec_uptparts = np.asarray(upt_icparts, dtype=np.int64)
 upt_icparts = np.asarray(upt_icparts)
 t_upt = np.asarray([upstop_ttt[season] - upstart_ttt[season] for season in range(len(upstart_ttt))])*86400 #Convert days to seconds
@@ -107,14 +111,16 @@ de_nu = 1e9*(10**log_e[1:] - 10**log_e[:-1])                #dE_nu in eV
 
 #ATNF PULSAR VECTORS
 
-msra = np.array([float(i) for i in mspdata['RAJD'].values])         #RAJD in degrees
-msdec = np.array([float(i) for i in mspdata['DECJD'].values])       #DECJD in degrees
-# msra = np.array([float(i) for i in mspdata['ra'].values])         #RA CHIME in degrees
-# msdec = np.array([float(i) for i in mspdata['dec'].values])       #DEC CHIME in degrees
+msra = np.array([float(i) for i in mspdata['RAJD'].values], dtype=np.float64)         #RAJD in degrees
+msdec = np.array([float(i) for i in mspdata['DECJD'].values], dtype=np.float64)       #DECJD in degrees
+msdist = np.array( [float(i) for i in mspdata['DIST_DM']], dtype=np.float64)
+mss1400 = np.array( [float(i) for i in mspdata['S1400']], dtype=np.float64)
+# msra = np.array([float(i) for i in mspdata['ra'].values], dtype=np.float64)         #RA CHIME in degrees
+# msdec = np.array([float(i) for i in mspdata['dec'].values], dtype=np.float64)       #DEC CHIME in degrees
 
-icra = np.array([float(i) for i in icdata['RA[deg]']])              #RA in degrees
-icdec = np.array([float(i) for i in icdata['Dec[deg]']])            #Dec in degrees
-icang = np.array([float(i) for i in icdata['AngErr[deg]']])         #AngErr in degrees
+icra = np.array([float(i) for i in icdata['RA[deg]']], dtype=np.float64)              #RA in degrees
+icdec = np.array([float(i) for i in icdata['Dec[deg]']], dtype=np.float64)            #Dec in degrees
+icang = np.array([float(i) for i in icdata['AngErr[deg]']], dtype=np.float64)         #AngErr in degrees
 # iceng = np.array([float(i) for i in icdata['log10(E/GeV)']])
 global p, lg, lnu
 p = len(msra)
@@ -122,6 +128,10 @@ lg = 1 + len(icra) // p
 lnu = len(icra)
 
 deg2rad_var = np.pi/180
+icdata = []
+uptdata = []
+eadata = []
+mspdata = []
 
 
 # All units check out:   eV, cm2, s, deg, GeV

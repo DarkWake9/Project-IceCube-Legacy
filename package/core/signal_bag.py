@@ -19,7 +19,7 @@
 
 
 
-from numba import jit, njit, prange, set_num_threads
+from numba import jit, njit, prange, set_num_threads, vectorize
 from numba.experimental import jitclass
 import numpy as np
 from scipy.optimize import minimize
@@ -31,7 +31,7 @@ import multiprocessing as mul
 
 set_num_threads(int(mul.cpu_count()*0.9))
 
-@jit(nopython=True)
+@njit
 def hvovec(lon1=0.0, lat1=0.0, lon2=0.0, lat2=0.0, rad=False):
 
     '''
@@ -83,8 +83,10 @@ def hvovec(lon1=0.0, lat1=0.0, lon2=0.0, lat2=0.0, rad=False):
 
 
 
-@jit(nopython=True)
-def S_ij(nu): 
+#Compute the signal PDF for all neutrinos as per eqns 6, 7 and weights as per eqn 8 of 2205.15963
+
+@njit
+def S_ijk(nu): 
 
     '''
     Calculates S_ij as in EQN 7 of 2205.15963
@@ -104,37 +106,59 @@ def S_ij(nu):
     sg = np.deg2rad(icang[nu]) ** 2                                     #rad**2
     return np.divide(np.exp(-1 * np.divide(ang2, 2*sg)), (2 * np.pi * sg))      #1/rad**2
 
-@jit(nopython=True)
-def S_i(nu, all_weights, sum_weights, wall):
+
+@njit
+def S_ik(nu, weight, w_models, gamma_index, ws):
 
     '''
-        Calculates S_i as in EQN 6 of 2205.15963
-        ----------
-
-        Parameters
-        ----------
-        nu : int
-            Index of the neutrino in the sample
-
-        Returns
-        -------
-        Returns the signal PDF for the {nu}th neutrino with all pulsars 
-        i.e S_i = wieghted-sum_j S_ij
-    '''
-
-
-
-    sij = S_ij(nu)
     
-    #sleep(1e-8)
-    return np.sum(np.multiply(sij, all_weights[wall] / sum_weights[wall]))      #1/rad**2
-    #return np.dot(sij, all_weights[wall] ) / sum_weights[wall]
+    Calculates S_i as in EQN 8 of 2205.15963
+    ----------
+
+    Parameters
+    ----------
+    nu : int
+        Index of the neutrino in the sample
+
+    normalized_wt : array
+        Normalized weights of the pulsars
+
+
+    gamma_index : int
+        Index of the gamma value in the gamma array
+
+    ws : int
+        Index of the weight model
+
+    Returns
+    -------
+        Returns the signal PDF for the {psrno}th pulsar and nuind_inp neutrino
+
+    '''
+
+    # si_sing_season_g =
+    # for i in prange(p):
+        # sij = S_ijk(nu)
+        # np.sum(np.multiply(sij, normalized_wt[i][gamma_index][season]))      #1/rad**2
+
+
+
+    sij = S_ijk(nu)
+    season = 0
+    for i in range(10):
+        if season_walls[i] <= nu and nu < season_walls[i+1]:
+            season = i
+            break
+
+    return np.sum(np.multiply(sij, np.multiply(w_models[ws], weight[gamma_index][season])/np.sum(np.multiply(w_models[ws], weight[gamma_index][season]))))      #1/rad**2
 
 
 
 
-@jit(nopython=True)
-def Bi_stacked(nu, cone=5):
+N_ic = 1134450
+# @jit(nopython=True)
+@vectorize(['float64(int64, int64)'], nopython=True,target='parallel')
+def Bi_stacked_compute(nu, cone=5):
 
     '''
     Calculates B_i as in EQN 9 of 2205.15963
@@ -154,14 +178,13 @@ def Bi_stacked(nu, cone=5):
         Returns the background PDF for the {nu}th neutrino
     '''
 
-    # count = 0
-    count = np.sum(np.abs(np.subtract(icdec, icdec[nu])) <= cone)
-
-    # for i in range(len(icdec)):
-    #     if abs(icdec[i] - icdec[nu]) <= cone:
-    #         count+=1
+    # count = np.sum(np.abs(np.subtract(icdec, icdec[nu])) <= cone)
+    count=0
+    for i in prange(len(icdec)):
+        if abs(icdec[i] - icdec[nu]) <= cone:
+            count+=1
     binwidth = (np.sin(np.deg2rad(icdec[nu] + cone)) - np.sin(np.deg2rad(icdec[nu] - cone)))*2*np.pi
-    return count/(binwidth * lnu)           #No units or sr**-1
+    return count/(binwidth * N_ic)  
 
 
 # @jitclass
@@ -184,7 +207,7 @@ class signals:
                 Returns the signal and background PDF for the {nu}th neutrino
             '''
             wall = wall_nu(nu)  #Finding the wall/icecube season in which the nu^th neutrino lies
-            return S_i(nu,  all_weights, sum_weights, wall)#,Ns]
+            return S_ik(nu,  all_weights, sum_weights, wall)#,Ns]
 
         pool = mul.Pool(int(mul.cpu_count()*0.9), maxtasksperchild=200)
         op_async = pool.map_async(sigbag_nu, range(lnu))
@@ -199,7 +222,7 @@ class signals:
     def compute_background(self):
         pool = mul.Pool(int(mul.cpu_count()*0.9), maxtasksperchild=200)
         
-        op_async = pool.map_async(Bi_stacked, prange(lnu))
+        op_async = pool.map_async(Bi_stacked_compute, prange(lnu))
         tmp = op_async.get()
         pool.close()
         pool = []
